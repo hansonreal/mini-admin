@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /mini-admin
+
+mini:
+  admin:
+    pool: # 线程池配置
+      core-size: 20    # 线程池创建时的初始化线程数，默认为8
+      max-pool-size: 30     # 线程池的最大线程数，默认为int最大值(2的31次方-1)
+      queue-capacity: 15  # 用来缓冲执行任务的队列，默认值为int最大值
+      keep-alive: 60s   # 线程终止前允许保持空闲的时间
+      allow-core-thread-timeout: true   # 是否允许核心线程超时
+    shutdown: # 应用关闭配置
+      await-termination: true   # 是否等待剩余任务完成之后才关闭应用
+      await-termination-period:   90s  # 等待剩余任务完成的最大时间

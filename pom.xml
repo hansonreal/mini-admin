@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>mini-admin-common</module>
+        <module>mini-admin-domain</module>
+        <module>mini-admin-gateway</module>
+        <module>mini-admin-infrastructure</module>
+        <module>mini-admin-start</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.github</groupId>
+    <artifactId>mini-admin</artifactId>
+    <version>Final</version>
+
+    <properties>
+        <ma.version>1.0.0</ma.version>
+        <java.version>1.8</java.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <mybatis.plus.starter.version>3.4.2</mybatis.plus.starter.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <!-- 依赖包管理， 按需添加 -->
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>mini-admin-common</artifactId>
+                <version>${ma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>mini-admin-domain</artifactId>
+                <version>${ma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>mini-admin-gateway</artifactId>
+                <version>${ma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>mini-admin-infrastructure</artifactId>
+                <version>${ma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>mini-admin-start</artifactId>
+                <version>${ma.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.starter.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <!-- 所有项目 项目依赖声明 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope> <!-- 编译阶段生效，不需要打入包中 -->
+        </dependency>
+    </dependencies>
+
+
+</project>
