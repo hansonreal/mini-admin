@@ -1,9 +1,11 @@
 package com.github.ma.gateway.config;
 
+import com.github.ma.common.properties.RsaKeyProperties;
 import com.github.ma.gateway.security.authentication.MiniAuthenticationEntryPoint;
 import com.github.ma.gateway.security.filter.JwtAuthenticationFilter;
 import com.github.ma.gateway.security.handler.MiniAccessDeniedHandler;
 import com.github.ma.gateway.security.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +26,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启@PreAuthorize @PostAuthorize 等前置后置安全校验注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Autowired
+    private RsaKeyProperties rsaKeyProperties;
+
 
     /**
      * 使用BCrypt强哈希函数 实现PasswordEncoder
@@ -58,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(new MiniAccessDeniedHandler())//无权限操作异常处理
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 基于token，所以不需要session
                 .and().authorizeRequests().anyRequest().authenticated()// 除上面外的所有请求全部需要鉴权认证
-                .and().addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
+                .and().addFilterBefore(new JwtAuthenticationFilter(rsaKeyProperties), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
                 .headers().cacheControl();// 禁用缓存
     }
 
