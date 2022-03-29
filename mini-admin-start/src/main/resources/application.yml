@@ -17,8 +17,3 @@ mini:
     key:
       pub-key-file: key/mini_rsa.pub
       pri-key-file: key/mini_rsa.pri
-spring:
-  main:
-    allow-bean-definition-overriding: true
-logging:
-  level.org: debug
