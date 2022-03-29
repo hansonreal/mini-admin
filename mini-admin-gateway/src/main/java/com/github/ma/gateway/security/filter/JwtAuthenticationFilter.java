@@ -2,7 +2,6 @@ package com.github.ma.gateway.security.filter;
 
 import com.github.ma.common.constant.MiniAdminConstant;
 import com.github.ma.common.properties.RsaKeyProperties;
-import com.github.ma.common.util.ApplicationContextUtil;
 import com.github.ma.common.util.JwtUtil;
 import com.github.ma.common.util.RedisUtil;
 import com.github.mini.system.domain.security.JwtUserDetails;
@@ -25,6 +24,12 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private RsaKeyProperties rsaKeyProperties;
+
+
+    public JwtAuthenticationFilter(RsaKeyProperties rsaKeyProperties) {
+        this.rsaKeyProperties = rsaKeyProperties;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -57,8 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return null; //放行,并交给UsernamePasswordAuthenticationFilter进行验证,返回公共错误信息.
         }
 
-        RsaKeyProperties rsaKeyProperties = ApplicationContextUtil.getBean(RsaKeyProperties.class);
-        assert rsaKeyProperties != null;
         JwtUtil.JWTPayload jwtPayload = JwtUtil.getInfoFromToken(authToken, rsaKeyProperties.getPublicKey());
         //token字符串解析失败
         if (jwtPayload == null || !StringUtils.hasLength(jwtPayload.getCacheKey())) {
