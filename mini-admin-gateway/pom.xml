@@ -16,7 +16,13 @@
 
         <dependency>
             <groupId>com.github</groupId>
-            <artifactId>mini-admin-common</artifactId>
+            <artifactId>mini-admin-infrastructure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope> <!-- 仅编译依赖该jar， 运行时存在 -->
         </dependency>
 
 

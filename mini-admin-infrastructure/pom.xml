@@ -10,13 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mini-admin-infrastructure</artifactId>
-
+    <version>${ma.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.github</groupId>
             <artifactId>mini-admin-domain</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>mini-admin-common</artifactId>
+        </dependency>
+
     </dependencies>
 
 

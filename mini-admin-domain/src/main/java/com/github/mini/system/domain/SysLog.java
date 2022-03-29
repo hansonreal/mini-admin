@@ -1,4 +1,4 @@
-package com.github.ma.system.domain;
+package com.github.mini.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,9 +15,9 @@ import java.util.Date;
  * 系统操作日志表
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("t_sys_log")
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
 public class SysLog implements Serializable {
 
     public static LambdaQueryWrapper<SysLog> gw() {

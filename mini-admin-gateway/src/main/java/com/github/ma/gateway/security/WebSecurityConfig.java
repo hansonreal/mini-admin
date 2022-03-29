@@ -1,6 +1,8 @@
 package com.github.ma.gateway.security;
 
 import com.github.ma.common.properties.MiniAdminProperties;
+import com.github.ma.gateway.security.filter.JwtAuthenticationFilter;
+import com.github.ma.gateway.security.handler.MiniAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,10 +28,18 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启@PreAuthorize @PostAuthorize 等前置后置安全校验注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+    private final MiniAdminProperties adminProperties;
 
-    private UserDetailsService userDetailsService;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    private MiniAdminProperties adminProperties;
+    public WebSecurityConfig(UserDetailsService userDetailsService,
+                             MiniAdminProperties adminProperties,
+                             AuthenticationEntryPoint authenticationEntryPoint) {
+        this.userDetailsService = userDetailsService;
+        this.adminProperties = adminProperties;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
     @Bean
     @Override
@@ -74,11 +85,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf,跨站请求伪造
                 .cors()
-                .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)// 认证失败处理方式
+                .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)// 认证失败处理方式
+                .accessDeniedHandler(new MiniAccessDeniedHandler())//无权限操作异常处理
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 基于token，所以不需要session
                 .and().authorizeRequests().anyRequest().authenticated()// 除上面外的所有请求全部需要鉴权认证
-                .and().addFilterBefore(new JeeAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
-                .and().headers().cacheControl();// 禁用缓存
+                .and().addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
+                .headers().cacheControl();// 禁用缓存
     }
 
     @Override

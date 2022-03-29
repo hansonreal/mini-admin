@@ -1,4 +1,4 @@
-package com.github.ma.system.domain;
+package com.github.mini.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,9 +15,9 @@ import java.util.Date;
  * 系统配置表
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_sys_config")
+@EqualsAndHashCode(callSuper = false)
 public class SysConfig implements Serializable {
 
     //gw
@@ -71,7 +71,7 @@ public class SysConfig implements Serializable {
     /**
      * 更新时间
      */
-    private Date updatedAt;
+    private Date updatedTime;
 
 
 }

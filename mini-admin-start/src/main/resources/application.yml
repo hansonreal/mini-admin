@@ -2,7 +2,6 @@ server:
   port: 8080
   servlet:
     context-path: /mini-admin
-
 mini:
   admin:
     pool: # 线程池配置
@@ -14,3 +13,6 @@ mini:
     shutdown: # 应用关闭配置
       await-termination: true   # 是否等待剩余任务完成之后才关闭应用
       await-termination-period:   90s  # 等待剩余任务完成的最大时间
+spring:
+  main:
+    allow-bean-definition-overriding: true
