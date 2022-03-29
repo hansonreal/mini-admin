@@ -1,8 +1,11 @@
-package com.github.ma.gateway.security;
+package com.github.ma.gateway.config;
 
 import com.github.ma.common.properties.MiniAdminProperties;
+import com.github.ma.common.properties.RsaKeyProperties;
+import com.github.ma.gateway.security.authentication.MiniAuthenticationEntryPoint;
 import com.github.ma.gateway.security.filter.JwtAuthenticationFilter;
 import com.github.ma.gateway.security.handler.MiniAccessDeniedHandler;
+import com.github.ma.gateway.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +21,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,17 +30,18 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启@PreAuthorize @PostAuthorize 等前置后置安全校验注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
+
+
+    private final UserDetailsServiceImpl userDetailsService;
     private final MiniAdminProperties adminProperties;
+    private final RsaKeyProperties rsaKeyProperties;
 
-    private final AuthenticationEntryPoint authenticationEntryPoint;
-
-    public WebSecurityConfig(UserDetailsService userDetailsService,
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService,
                              MiniAdminProperties adminProperties,
-                             AuthenticationEntryPoint authenticationEntryPoint) {
+                             RsaKeyProperties rsaKeyProperties) {
         this.userDetailsService = userDetailsService;
         this.adminProperties = adminProperties;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.rsaKeyProperties = rsaKeyProperties;
     }
 
     @Bean
@@ -63,33 +66,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    /**
-     * 允许跨域请求
-     **/
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        if (adminProperties.isAllowCrossOrigin()) {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowCredentials(true);   //带上cookie信息
-//          config.addAllowedOrigin(CorsConfiguration.ALL);  //允许跨域的域名， *表示允许任何域名使用
-            config.addAllowedOriginPattern(CorsConfiguration.ALL);  //使用addAllowedOriginPattern 避免出现 When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
-            config.addAllowedHeader(CorsConfiguration.ALL);   //允许任何请求头
-            config.addAllowedMethod(CorsConfiguration.ALL);   //允许任何方法（post、get等）
-            source.registerCorsConfiguration("/**", config); // CORS 配置对所有接口都有效
-        }
-        return new CorsFilter(source);
-    }
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf,跨站请求伪造
                 .cors()
-                .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)// 认证失败处理方式
+                .and().exceptionHandling().authenticationEntryPoint(new MiniAuthenticationEntryPoint())// 认证失败处理方式
                 .accessDeniedHandler(new MiniAccessDeniedHandler())//无权限操作异常处理
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 基于token，所以不需要session
                 .and().authorizeRequests().anyRequest().authenticated()// 除上面外的所有请求全部需要鉴权认证
-                .and().addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
+                .and().addFilterBefore(new JwtAuthenticationFilter(rsaKeyProperties), UsernamePasswordAuthenticationFilter.class) // 添加JWT 认证过滤器filter
                 .headers().cacheControl();// 禁用缓存
     }
 

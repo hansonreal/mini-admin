@@ -2,13 +2,14 @@ package com.github.ma.common.properties;
 
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
 @Data
-@Component
+@Slf4j
 @ConfigurationProperties(prefix = "mini.admin")
 public class MiniAdminProperties {
 
@@ -16,7 +17,6 @@ public class MiniAdminProperties {
      * 是否允许跨域请求 [生产环境建议关闭， 若api与前端项目没有在同一个域名下时，应开启此配置或在nginx统一配置允许跨域]
      **/
     private boolean allowCrossOrigin = true;
-
 
     // 线程池配置
     private Pool pool = new Pool();
@@ -56,7 +56,6 @@ public class MiniAdminProperties {
         private String threadNamePrefix = "M-A-T";
     }
 
-
     /**
      * 关闭应用配置
      */
@@ -72,4 +71,5 @@ public class MiniAdminProperties {
         private Duration awaitTerminationPeriod = Duration.ofSeconds(90);
 
     }
+
 }

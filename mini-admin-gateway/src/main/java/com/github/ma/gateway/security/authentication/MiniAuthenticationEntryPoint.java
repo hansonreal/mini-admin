@@ -13,7 +13,6 @@ import java.io.Serializable;
 /***
  *  认证失败时处理
  */
-@Component
 public class MiniAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
     @Override

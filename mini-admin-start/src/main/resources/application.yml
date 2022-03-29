@@ -13,6 +13,12 @@ mini:
     shutdown: # 应用关闭配置
       await-termination: true   # 是否等待剩余任务完成之后才关闭应用
       await-termination-period:   90s  # 等待剩余任务完成的最大时间
+  rsa:
+    key:
+      pub-key-file: key/mini_rsa.pub
+      pri-key-file: key/mini_rsa.pri
 spring:
   main:
     allow-bean-definition-overriding: true
+logging:
+  level.org: debug
