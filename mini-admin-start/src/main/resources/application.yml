@@ -44,6 +44,7 @@ logging:
     path: ./logs  #日志存放地址
 mini:
   admin:
+    allow-cross-origin: true # 是否允许跨域，开发环境建议开启，生产环境建议配置到Nginx中
     pool: # 线程池配置
       core-size: 20    # 线程池创建时的初始化线程数，默认为8
       max-pool-size: 30     # 线程池的最大线程数，默认为int最大值(2的31次方-1)
