@@ -2,6 +2,7 @@ package com.github.mini.gateway.config;
 
 import com.github.mini.common.properties.RsaKeyProperties;
 import com.github.mini.gateway.security.authentication.MiniAuthenticationEntryPoint;
+import com.github.mini.gateway.security.ext.SecurityExtUtil;
 import com.github.mini.gateway.security.filter.JwtAuthenticationFilter;
 import com.github.mini.gateway.security.handler.MiniAccessDeniedHandler;
 import com.github.mini.gateway.security.service.UserDetailsServiceImpl;
@@ -31,6 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RsaKeyProperties rsaKeyProperties;
 
+    @Autowired
+    private SecurityExtUtil securityExt;
 
     /**
      * 使用BCrypt强哈希函数 实现PasswordEncoder
@@ -92,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.xls",
                 "/**/*.mp4"   //支持mp4格式的文件匿名访问
         ).antMatchers(
-                "/api/anon/**" //匿名访问接口
+                securityExt.getAnonymousUrls().toArray(new String[0])//匿名访问接口
         );
     }
 

@@ -1,41 +1,45 @@
 package com.github.mini.common.util;
 
-import com.github.mini.common.ann.Anonymous;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 @Component
 public class ApplicationContextUtil implements ApplicationContextAware {
-    private static ApplicationContext applicationContext = null;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (ApplicationContextUtil.applicationContext == null) {
-            ApplicationContextUtil.applicationContext = applicationContext;
-        }
-    }
+
+    private static ApplicationContext applicationContext;
 
     /**
-     * 获取applicationContext
+     * 取得存储在静态变量中的ApplicationContext.
+     * 这个对象和自动注入的是同一个。
      */
     public static ApplicationContext getApplicationContext() {
-        Assert.isNull(applicationContext, "Spring 容器未初始化");
+        checkApplicationContext();
         return applicationContext;
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        ApplicationContextUtil.applicationContext = applicationContext;
+    }
+
+    /**
+     * 清除applicationContext静态变量.
+     */
+    public static void cleanApplicationContext() {
+        applicationContext = null;
+    }
+
+    private static void checkApplicationContext() {
+        if (applicationContext == null) {
+            throw new IllegalStateException("applicaitonContext未注入");
+        }
+    }
 
     /**
      * 通过name获取 Bean.
@@ -70,31 +74,5 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         }
         return getApplicationContext().getBean(name, clazz);
     }
-
-
-    /**
-     * 获取匿名访问的URL
-     *
-     * @return
-     */
-    @PostConstruct
-    public Set<String> getAnonymousUrls() {
-        RequestMappingHandlerMapping handlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
-        Set<String> anonymousUrls = new HashSet<>();
-
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethods.entrySet()) {
-            HandlerMethod handlerMethod = infoEntry.getValue();
-            Anonymous anonymous = handlerMethod.getMethodAnnotation(Anonymous.class);
-            if (anonymous != null) {
-                if (infoEntry.getKey().getPatternsCondition() != null) {
-                    anonymousUrls.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
-                }
-            }
-        }
-        log.info("可以匿名访问的URL:{}", anonymousUrls);
-        return anonymousUrls;
-    }
-
 
 }
