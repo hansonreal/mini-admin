@@ -1,7 +1,7 @@
 server:
-  port: 8080
+  port: 9527
   servlet:
-    context-path: /mini-admin
+    context-path: /mini
 spring:
   datasource:
     username: root
