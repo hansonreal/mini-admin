@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     @Anonymous
-    @GetMapping("/index")
+    @GetMapping({"/", "/index"})
     public String init() {
         return "Welcome to use Mini Admin Sys!";
     }

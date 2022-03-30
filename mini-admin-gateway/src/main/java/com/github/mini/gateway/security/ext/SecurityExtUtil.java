@@ -25,12 +25,16 @@ public class SecurityExtUtil implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
+    private int count = 0;
+
 
     /**
      * 获取匿名访问的URL
      */
     @PostConstruct
     public Set<String> getAnonymousUrls() {
+        count++;
+        log.info("当前执行第:{}次",count);
         RequestMappingHandlerMapping handlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
 
@@ -38,18 +42,16 @@ public class SecurityExtUtil implements ApplicationContextAware {
         Set<String> anonymousUrls = new HashSet<>();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethods.entrySet()) {
             HandlerMethod handlerMethod = infoEntry.getValue();
-
-            log.info("HandlerMethod :{}", handlerMethod.getClass().getName());
             Anonymous anonymous = handlerMethod.getMethodAnnotation(Anonymous.class);
             if (anonymous != null) {
                 RequestMappingInfo requestMappingInfo = infoEntry.getKey();
                 PathPatternsRequestCondition pathPatternsCondition = requestMappingInfo.getPathPatternsCondition();
-                if (pathPatternsCondition != null) {
+                if (pathPatternsCondition != null) {//spring boot 2.6.4 该值不会为空, 2.4.2版本该值为空
                     Set<PathPattern> patterns = pathPatternsCondition.getPatterns();
                     patterns.forEach(pathPattern -> anonymousUrls.add(pathPattern.getPatternString()));
                 }
                 PatternsRequestCondition patternsCondition = requestMappingInfo.getPatternsCondition();
-                if (null != patternsCondition) {
+                if (null != patternsCondition) {////spring boot 2.6.4 版本该值为空, 2.4.2该值不会为空
                     anonymousUrls.addAll(patternsCondition.getDirectPaths());
                 }
 
