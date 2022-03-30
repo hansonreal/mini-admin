@@ -1,4 +1,4 @@
-package com.github.mini.system.log.mapper;
+package com.github.mini.system.mapper.log;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.mini.system.domain.SysLog;
