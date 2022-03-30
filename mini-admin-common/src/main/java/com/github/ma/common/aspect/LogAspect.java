@@ -22,7 +22,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * @description: 切面处理类
  * @author: HanSon.Q
  * @since: V1.0
- * @date: 2021/9/21
+ * @date: 2020/9/21
  */
 @Slf4j
 @Aspect
@@ -32,7 +32,8 @@ public class LogAspect {
     /**
      * 异步处理线程池
      */
-    private final static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(10);
+    private final static ScheduledExecutorService scheduledThreadPool
+            = Executors.newScheduledThreadPool(10);
 
 
 

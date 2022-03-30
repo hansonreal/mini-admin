@@ -1,6 +1,6 @@
 package com.github.ma.common.util;
 
-import com.github.ma.common.aspect.Anonymous;
+import com.github.ma.common.ann.Anonymous;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

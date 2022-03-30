@@ -1,4 +1,4 @@
-package com.github.ma.common.aspect;
+package com.github.ma.common.ann;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

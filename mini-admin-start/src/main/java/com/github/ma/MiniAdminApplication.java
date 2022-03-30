@@ -3,6 +3,7 @@ package com.github.ma;
 import com.github.ma.common.properties.MiniAdminProperties;
 import com.github.ma.common.properties.RsaKeyProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,6 +19,7 @@ import java.net.UnknownHostException;
  */
 @Slf4j
 @SpringBootApplication
+@MapperScan
 @EnableConfigurationProperties({MiniAdminProperties.class, RsaKeyProperties.class})
 public class MiniAdminApplication {
 
