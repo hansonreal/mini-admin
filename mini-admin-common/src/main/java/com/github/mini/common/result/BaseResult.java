@@ -20,15 +20,20 @@ import lombok.ToString;
 @NoArgsConstructor
 public class BaseResult implements IBaseResponse {
     /**
+     * 是否成功
+     */
+    private boolean flag = SUCCESS;
+    /**
      * 返回码
      */
     private String code = SUCCESS_CODE;
     /**
      * 返回信息
      */
-    private String message = SUCCESS_MSG;
+    private String message;
 
     public BaseResult(ResultCode code) {
+        this.flag = code.isSuccess();
         this.code = code.getCode();
         this.message = code.getMessage();
     }

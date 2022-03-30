@@ -10,4 +10,5 @@ package com.github.mini.common.result;
 public interface IBaseResponse {
     public static final String SUCCESS_MSG = "success";
     public static final String SUCCESS_CODE = "000";
+    public static final boolean SUCCESS = true;
 }
