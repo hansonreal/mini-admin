@@ -10,6 +10,7 @@
         <module>mini-admin-gateway</module>
         <module>mini-admin-infrastructure</module>
         <module>mini-admin-start</module>
+        <module>mini-admin-codegen</module>
     </modules>
 
     <parent>

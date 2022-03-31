@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mini.system.service.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.mini.system.domain.SysUser">
+        <id column="id" property="id" />
+        <result column="login_username" property="loginUsername" />
+        <result column="real_name" property="realName" />
+        <result column="tel_phone" property="telPhone" />
+        <result column="sex" property="sex" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="user_no" property="userNo" />
+        <result column="state" property="state" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+</mapper>

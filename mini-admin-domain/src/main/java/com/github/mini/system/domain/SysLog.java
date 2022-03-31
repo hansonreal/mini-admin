@@ -2,8 +2,6 @@ package com.github.mini.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -12,25 +10,25 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * <p>
  * 系统操作日志表
+ * </p>
+ *
+ * @author [mybatis plus generator]
+ * @since 2022-03-31
  */
 @Data
-@TableName("t_sys_log")
-@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class SysLog implements Serializable {
 
-    public static LambdaQueryWrapper<SysLog> gw() {
-        return new LambdaQueryWrapper<>();
-    }
-
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * id
      */
-    @TableId(value = "sys_log_id", type = IdType.AUTO)
-    private Integer sysLogId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 系统用户ID
@@ -48,7 +46,7 @@ public class SysLog implements Serializable {
     private String userIp;
 
     /**
-     * 所属系统： MGR-运营平台, MCH-商户中心
+     * 所属系统： Mini管理系统, 
      */
     private String sysType;
 
@@ -80,7 +78,7 @@ public class SysLog implements Serializable {
     /**
      * 创建时间
      */
-    private Date createdAt;
+    private Date createdTime;
 
 
 }
