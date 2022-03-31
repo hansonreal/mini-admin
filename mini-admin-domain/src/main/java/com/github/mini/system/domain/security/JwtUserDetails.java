@@ -1,5 +1,6 @@
 package com.github.mini.system.domain.security;
 
+import com.github.mini.system.domain.SysUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
