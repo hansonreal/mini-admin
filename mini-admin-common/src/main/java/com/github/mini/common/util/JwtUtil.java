@@ -82,10 +82,10 @@ public class JwtUtil {
         private String cacheKey;      //redis保存的key
 
 
-        public JWTPayload(JwtUserDetails jeeUserDetails) {
-            this.setSysUserId(jeeUserDetails.getSysUser().getSysUserId());
+        public JWTPayload(JwtUserDetails jwtUserDetails) {
+            this.setSysUserId(jwtUserDetails.getSysUser().getId());
             this.setCreated(System.currentTimeMillis());
-            this.setCacheKey(jeeUserDetails.getCacheKey());
+            this.setCacheKey(jwtUserDetails.getCacheKey());
         }
 
         public Map<String, Object> toMap() {
