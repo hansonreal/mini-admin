@@ -15,20 +15,20 @@ import java.security.PublicKey;
 @Slf4j
 @ConfigurationProperties(prefix = "mini.rsa.key")
 public class RsaKeyProperties {
-    private String pubKeyFile;
-    private String priKeyFile;
+    private String pubKeyFilePath;
+    private String priKeyFilePath;
 
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
     @PostConstruct
     public void initRsaKey() throws Exception {
-        log.info("pubKeyFile:{}", pubKeyFile);
-        log.info("priKeyFile:{}", priKeyFile);
-        ClassPathResource pubKeyFileResource = new ClassPathResource(pubKeyFile);
+        log.info("pubKeyFile:{}", pubKeyFilePath);
+        log.info("priKeyFile:{}", priKeyFilePath);
+        ClassPathResource pubKeyFileResource = new ClassPathResource(pubKeyFilePath);
         InputStream pubKeyFileInputStream = pubKeyFileResource.getInputStream();
         publicKey = RsaUtil.getPublicKey(pubKeyFileInputStream);
-        ClassPathResource priKeyFileResource = new ClassPathResource(priKeyFile);
+        ClassPathResource priKeyFileResource = new ClassPathResource(priKeyFilePath);
         InputStream priKeyFileInputStream = priKeyFileResource.getInputStream();
         privateKey = RsaUtil.getPrivateKey(priKeyFileInputStream);
 

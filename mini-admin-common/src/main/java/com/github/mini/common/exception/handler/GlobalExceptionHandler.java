@@ -6,6 +6,7 @@ import com.github.mini.common.result.BaseResult;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
         // 参数错误
         builder.put(HttpMessageNotReadableException.class, CommonCodeEnum.INVALID_PARAM);
         // 权限不足,禁止访问
-        // builder.put(AccessDeniedException.class, CommonCodeEnum.NO_AUTH_CODE);
+        //builder.put(AccessDeniedException.class, CommonCodeEnum.NO_AUTH_CODE);
     }
 
     /**

@@ -56,5 +56,5 @@ mini:
       await-termination-period:   90s  # 等待剩余任务完成的最大时间
   rsa:
     key:
-      pub-key-file: key/mini_rsa.pub
-      pri-key-file: key/mini_rsa.pri
+      pub-key-file-path: key/mini_rsa.pub
+      pri-key-file-path: key/mini_rsa.pri
