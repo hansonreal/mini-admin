@@ -24,14 +24,12 @@ public class AuthController {
      * @return
      */
     @PostMapping("/login")
-    public JwtResult login(@RequestBody @Validated LoginRequest loginRequest) {
+    public JwtResult login(@RequestBody @Validated LoginRequest loginRequest) throws Exception {
         log.info("认证");
         @NotBlank(message = "登录名不能为空") String username = loginRequest.getUsername();
         @NotBlank(message = "密码不能为空") String password = loginRequest.getPassword();
         String auth = authService.auth(username, password);
-
-
-        return JwtResult.ok(jwt);
+        return JwtResult.ok(auth);
     }
 
 

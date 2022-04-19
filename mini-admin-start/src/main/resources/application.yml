@@ -53,7 +53,7 @@ mini:
       allow-core-thread-timeout: true   # 是否允许核心线程超时
     shutdown: # 应用关闭配置
       await-termination: true   # 是否等待剩余任务完成之后才关闭应用
-      await-termination-period:   90s  # 等待剩余任务完成的最大时间
+      await-termination-period: 90s  # 等待剩余任务完成的最大时间
   rsa:
     key:
       pub-key-file-path: key/mini_rsa.pub

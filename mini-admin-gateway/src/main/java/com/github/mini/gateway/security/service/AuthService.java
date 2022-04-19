@@ -74,9 +74,7 @@ public class AuthService {
 
         //
 
-        String jwtToken = JwtUtil.generateToken(sysUser.getId(), rsaKeyProperties.getPrivateKey());
-
-        return jwtToken;
+        return JwtUtil.generateToken(sysUser.getId(), rsaKeyProperties.getPrivateKey());
     }
 
     public List<SimpleGrantedAuthority> getUserAuthority(SysUser sysUser) {
