@@ -1,5 +1,6 @@
 package com.github.mini.system.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,6 +26,7 @@ public class SysConfig implements Serializable {
     /**
      * 配置KEY
      */
+    @TableId
     private String configKey;
 
     /**
