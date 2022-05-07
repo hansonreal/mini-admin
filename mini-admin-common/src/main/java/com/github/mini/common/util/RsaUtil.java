@@ -1,6 +1,6 @@
 package com.github.mini.common.util;
 
-import com.github.mini.common.constant.MiniAdminConstant;
+import com.github.mini.common.constant.MiniConstant;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -43,7 +43,7 @@ public class RsaUtil {
     public static KeyPair getKeyPair(String secret,
                                      int keySize) throws Exception {
         KeyPairGenerator generator =
-                KeyPairGenerator.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+                KeyPairGenerator.getInstance(MiniConstant.ALGORITHM_NAME);
         SecureRandom secureRandom = new SecureRandom(secret.getBytes());
         generator.initialize(Math.max(keySize, DEFAULT_KEY_SIZE), secureRandom);
         return generator.generateKeyPair();
@@ -89,7 +89,7 @@ public class RsaUtil {
      * @return java.security.PrivateKey
      */
     public static PrivateKey getPrivateKey(String privateKey) throws Exception {
-        KeyFactory keyFactory = KeyFactory.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        KeyFactory keyFactory = KeyFactory.getInstance(MiniConstant.ALGORITHM_NAME);
         byte[] decodedKey = Base64Util.decoder(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
         return keyFactory.generatePrivate(keySpec);
@@ -102,7 +102,7 @@ public class RsaUtil {
      * @return java.security.PublicKey
      */
     public static PublicKey getPublicKey(String publicKey) throws Exception {
-        KeyFactory keyFactory = KeyFactory.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        KeyFactory keyFactory = KeyFactory.getInstance(MiniConstant.ALGORITHM_NAME);
         byte[] decodedKey = Base64Util.decoder(publicKey.getBytes());
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
         return keyFactory.generatePublic(keySpec);
@@ -116,7 +116,7 @@ public class RsaUtil {
      * @return java.lang.String
      */
     public static String encrypt(String data, PublicKey publicKey) throws Exception {
-        Cipher cipher = Cipher.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        Cipher cipher = Cipher.getInstance(MiniConstant.ALGORITHM_NAME);
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         int inputLen = data.getBytes().length;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -149,7 +149,7 @@ public class RsaUtil {
      * @return java.lang.String
      */
     public static String decrypt(String data, PrivateKey privateKey) throws Exception {
-        Cipher cipher = Cipher.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        Cipher cipher = Cipher.getInstance(MiniConstant.ALGORITHM_NAME);
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] dataBytes = Base64Util.decoder(data);
         int inputLen = dataBytes.length;
@@ -184,9 +184,9 @@ public class RsaUtil {
     public static String sign(String data, PrivateKey privateKey) throws Exception {
         byte[] keyBytes = privateKey.getEncoded();
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        KeyFactory keyFactory = KeyFactory.getInstance(MiniConstant.ALGORITHM_NAME);
         PrivateKey key = keyFactory.generatePrivate(keySpec);
-        Signature signature = Signature.getInstance(MiniAdminConstant.MD5_RSA);
+        Signature signature = Signature.getInstance(MiniConstant.MD5_RSA);
         signature.initSign(key);
         signature.update(data.getBytes());
         return new String(Base64Util.encoder(signature.sign()), StandardCharsets.UTF_8);
@@ -203,9 +203,9 @@ public class RsaUtil {
     public static boolean verify(String srcData, PublicKey publicKey, String sign) throws Exception {
         byte[] keyBytes = publicKey.getEncoded();
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(MiniAdminConstant.ALGORITHM_NAME);
+        KeyFactory keyFactory = KeyFactory.getInstance(MiniConstant.ALGORITHM_NAME);
         PublicKey key = keyFactory.generatePublic(keySpec);
-        Signature signature = Signature.getInstance(MiniAdminConstant.MD5_RSA);
+        Signature signature = Signature.getInstance(MiniConstant.MD5_RSA);
         signature.initVerify(key);
         signature.update(srcData.getBytes());
         return signature.verify(Base64Util.decoder(sign.getBytes()));

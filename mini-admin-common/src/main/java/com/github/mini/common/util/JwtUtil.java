@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.github.mini.common.constant.MiniAdminConstant.JWT_PAYLOAD_USER_KEY;
+import static com.github.mini.common.constant.MiniConstant.JWT_PAYLOAD_USER_KEY;
 
 /**
  * @className: JwtUtil

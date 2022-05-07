@@ -1,6 +1,6 @@
 package com.github.mini.gateway.security.filter;
 
-import com.github.mini.common.constant.MiniAdminConstant;
+import com.github.mini.common.constant.MiniConstant;
 import com.github.mini.common.properties.RsaKeyProperties;
 import com.github.mini.common.util.JwtUtil;
 import com.github.mini.common.util.RedisUtil;
@@ -54,9 +54,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private JwtUserDetails commonFilter(HttpServletRequest request) {
 
-        String authToken = request.getHeader(MiniAdminConstant.ACCESS_TOKEN_NAME);
+        String authToken = request.getHeader(MiniConstant.ACCESS_TOKEN_NAME);
         if (!StringUtils.hasLength(authToken)) {
-            authToken = request.getParameter(MiniAdminConstant.ACCESS_TOKEN_NAME);
+            authToken = request.getParameter(MiniConstant.ACCESS_TOKEN_NAME);
         }
         if (!StringUtils.hasLength(authToken)) {
             return null; //放行,并交给UsernamePasswordAuthenticationFilter进行验证,返回公共错误信息.
@@ -74,7 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return null; //数据库查询失败，删除redis
         }
         //续签时间
-        RedisUtil.expire(jwtPayload.getCacheKey(), MiniAdminConstant.TOKEN_TIME);
+        RedisUtil.expire(jwtPayload.getCacheKey(), MiniConstant.TOKEN_TIME);
         return jwtUserDetails;
     }
 
