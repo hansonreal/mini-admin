@@ -28,8 +28,9 @@
         <ma.version>1.0.0</ma.version>
         <java.version>1.8</java.version>
         <jwt.version>0.10.7</jwt.version>
-        <guava.version>28.1-jre</guava.version>
         <druid.version>1.2.6</druid.version>
+        <guava.version>28.1-jre</guava.version>
+        <redisson.version>3.10.6</redisson.version>
         <commons-io.version>2.11.0</commons-io.version>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -105,6 +106,12 @@
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jwt.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
             <dependency>
