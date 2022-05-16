@@ -63,8 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf,跨站请求伪造
-                .cors()
+        httpSecurity.csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf（跨站请求伪造）
+                .cors()// 跨越配置支持，此处代码会自动加载一个bean名称为 corsFilter的Filter
                 .and().exceptionHandling().authenticationEntryPoint(new MiniAuthenticationEntryPoint())// 认证失败处理方式
                 .accessDeniedHandler(new MiniAccessDeniedHandler())//无权限操作异常处理
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 基于token，所以不需要session
