@@ -41,7 +41,7 @@ logging:
     root: info   #主日志级别
     com.github.mini: debug   #该项目日志级别，当需要打印sql时请开启为debug
   file:
-    path: ./logs  #日志存放地址
+    name: ./logs/mini-admin.log #日志存放位置以及名称
 mini:
   admin:
     allow-cross-origin: true # 是否允许跨域，开发环境建议开启，生产环境建议配置到Nginx中
