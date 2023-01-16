@@ -20,11 +20,7 @@ target/
 *.ipr
 !**/*.iml
 */*.iml
-mini-admin-common/mini-admin-common.iml
-mini-admin-domain/mini-admin-domain.iml
-mini-admin-infrastructure/mini-admin-infrastructure.iml
-mini-admin-start/mini-admin-start.iml
-mini-admin.iml
+target
 
 ### NetBeans ###
 /nbproject/private/

@@ -17,8 +17,8 @@ import java.net.UnknownHostException;
  * Mini启动入口
  */
 @Slf4j
-@SpringBootApplication
 @MapperScan
+@SpringBootApplication
 @EnableConfigurationProperties({MiniAdminProperties.class, RsaKeyProperties.class})
 public class MiniAdminApplication {
 

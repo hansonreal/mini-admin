@@ -12,8 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private MiniAdminProperties adminProperties;
+    private final MiniAdminProperties adminProperties;
+
+    public WebMvcConfig(MiniAdminProperties adminProperties) {
+        this.adminProperties = adminProperties;
+    }
 
     /**
      * 允许跨域请求

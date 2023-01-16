@@ -12,7 +12,6 @@ import com.github.mini.system.service.ISysRolePermissionService;
 import com.github.mini.system.service.ISysRoleService;
 import com.github.mini.system.service.ISysUserRoleService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,23 +28,31 @@ import java.util.List;
 @Slf4j
 @Service
 public class AuthService {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private RsaKeyProperties rsaKeyProperties;
+    private final RsaKeyProperties rsaKeyProperties;
 
-    @Autowired
-    private ISysRolePermissionService sysRolePermissionService;
+    private final ISysRolePermissionService sysRolePermissionService;
 
-    @Autowired
-    private ISysRoleService sysRoleService;
+    private final ISysRoleService sysRoleService;
 
-    @Autowired
-    private ISysUserRoleService sysUserRoleService;
+    private final ISysUserRoleService sysUserRoleService;
 
-    @Autowired
-    private ISysPermissionService sysPermissionService;
+    private final ISysPermissionService sysPermissionService;
+
+    public AuthService(AuthenticationManager authenticationManager,
+                       RsaKeyProperties rsaKeyProperties,
+                       ISysRolePermissionService sysRolePermissionService,
+                       ISysRoleService sysRoleService,
+                       ISysUserRoleService sysUserRoleService,
+                       ISysPermissionService sysPermissionService) {
+        this.authenticationManager = authenticationManager;
+        this.rsaKeyProperties = rsaKeyProperties;
+        this.sysRolePermissionService = sysRolePermissionService;
+        this.sysRoleService = sysRoleService;
+        this.sysUserRoleService = sysUserRoleService;
+        this.sysPermissionService = sysPermissionService;
+    }
 
     public String auth(String username, String password) throws Exception {
         PrivateKey privateKey = rsaKeyProperties.getPrivateKey();

@@ -2,6 +2,8 @@ package com.github.mini.gateway.security.ext;
 
 
 import com.github.mini.common.ann.Anonymous;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -15,10 +17,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.util.pattern.PathPattern;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Getter
+@Setter
 @Slf4j
 @Component
 public class SecurityExtUtil implements ApplicationContextAware {
@@ -27,12 +32,14 @@ public class SecurityExtUtil implements ApplicationContextAware {
 
     private int count = 0;
 
+    private Set<String> anonymousUrls = Collections.emptySet();
+
 
     /**
      * 获取匿名访问的URL
      */
     @PostConstruct
-    public Set<String> getAnonymousUrls() {
+    public Set<String> init() {
         count++;
         log.info("当前执行第:{}次",count);
         RequestMappingHandlerMapping handlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);

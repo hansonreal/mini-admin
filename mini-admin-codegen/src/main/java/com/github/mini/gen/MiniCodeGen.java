@@ -34,7 +34,7 @@ public class MiniCodeGen {
         }
 
         gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("[mybatis plus generator]");
+        gc.setAuthor("HansonReal");
         gc.setOpen(false);
 
         gc.setBaseResultMap(true);
