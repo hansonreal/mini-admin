@@ -155,23 +155,44 @@ CREATE TABLE `t_sys_config`
   ROW_FORMAT = Dynamic;
 
 -- 系统操作日志表
-DROP TABLE IF EXISTS sys_log;
-CREATE TABLE `t_sys_log`
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log`
 (
-    `sys_log_id`    int(11)       NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `user_id`       bigint(20)             DEFAULT NULL COMMENT '系统用户ID',
-    `user_name`     varchar(32)            DEFAULT NULL COMMENT '用户姓名',
-    `user_ip`       varchar(128)  NOT NULL DEFAULT '' COMMENT '用户IP',
-    `sys_type`      varchar(8)    NOT NULL COMMENT '所属系统： Mini管理系统, ',
-    `method_name`   varchar(128)  NOT NULL DEFAULT '' COMMENT '方法名',
-    `method_remark` varchar(128)  NOT NULL DEFAULT '' COMMENT '方法描述',
-    `req_url`       varchar(256)  NOT NULL DEFAULT '' COMMENT '请求地址',
-    `opt_req_param` varchar(2048) NOT NULL DEFAULT '' COMMENT '操作请求参数',
-    `opt_res_info`  varchar(2048) NOT NULL DEFAULT '' COMMENT '操作响应结果',
-    `created_time`  timestamp(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
-    PRIMARY KEY (`sys_log_id`)
+    `log_id`        BIGINT        NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `user_ip`       VARCHAR(128)  NOT NULL DEFAULT '' COMMENT '用户IP',
+    `sys_type`      VARCHAR(8)    NOT NULL COMMENT '所属系统： IPAY, CRM, CALC, MDM',
+    `method_name`   VARCHAR(128)  NOT NULL DEFAULT '' COMMENT '方法名',
+    `method_remark` VARCHAR(128)  NOT NULL DEFAULT '' COMMENT '方法描述',
+    `req_url`       VARCHAR(256)  NOT NULL DEFAULT '' COMMENT '请求地址',
+    `opt_req_param` VARCHAR(2048) NOT NULL DEFAULT '' COMMENT '操作请求参数',
+    `opt_res_info`  VARCHAR(2048) NOT NULL DEFAULT '' COMMENT '操作响应结果',
+    `created_time`  DATETIME               DEFAULT CURRENT_TIMESTAMP NULL COMMENT '创建时间',
+    `duration_time` DECIMAL(15)   NULL COMMENT '持续时间，单位毫秒',
+    PRIMARY KEY (`log_id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8mb4 COMMENT = '系统操作日志表'
+  ROW_FORMAT = Dynamic;
+
+-- mysql 消息表
+DROP TABLE IF EXISTS `sys_msg`;
+CREATE TABLE `sys_msg`
+(
+    msg_id       BIGINT                             NOT NULL COMMENT '消息标识'
+        PRIMARY KEY,
+    msg_state    INT      DEFAULT 0                 NOT NULL COMMENT '消息状态:0等待消费 1已消费 2已死亡，默认值0',
+    msg_body     VARCHAR(512)                       NOT NULL COMMENT '消息内容',
+    queue_name   VARCHAR(128)                       NULL COMMENT '队列名称',
+    consumer     VARCHAR(64)                        NOT NULL COMMENT '消费系统',
+    consume_time DATETIME                           NULL COMMENT '消费时间',
+    die_count    INT      DEFAULT 10                NOT NULL COMMENT '死亡次数条件,由使用方决定,默认为发送10次还没被消费则标记死亡，人工介入',
+    die_time     DATETIME                           NULL COMMENT '死亡时间',
+    send_count   INT      DEFAULT 0                 NOT NULL COMMENT '重复发送消息次数，默认为0',
+    sent_time    DATETIME                           NULL COMMENT '最近发送消息时间',
+    producer     VARCHAR(64)                        NOT NULL COMMENT '消息生产者',
+    update_time  DATETIME DEFAULT CURRENT_TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    create_time  DATETIME DEFAULT CURRENT_TIMESTAMP NULL COMMENT '创建时间'
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8mb4 COMMENT '消息表'
   ROW_FORMAT = Dynamic;
 
 -- 系统字典表
@@ -217,3 +238,22 @@ CREATE TABLE `sys_dict_item`
 ) ENGINE = INNODB
   CHARACTER SET = utf8mb4 COMMENT = '系统字典分项表'
   ROW_FORMAT = Dynamic;
+
+
+-- mysql 微信订单表
+create table if not exists a_wx_order
+(
+    wx_order_id  bigint                               not null comment '微信订单标识'
+        primary key,
+    order_no     varchar(64)                          not null comment '商户订单编号',
+    order_state  varchar(2) default '0'               null comment '订单状态，默认值00，可选值有：00未支付，01支付成功，02超时已关闭，03用户已取消，04退款中，05已退款，06退款异常',
+    order_amt    decimal    default 0                 not null comment '订单金额，单位分，默认值0.00',
+    order_title  varchar(128)                         not null comment '订单标题',
+    order_body   varchar(1024)                        null comment '订单明细，json格式',
+    cons_no      varchar(32)                          not null comment '用户编号',
+    qrcode_url   varchar(512)                         null comment '订单二维码连接',
+    expired_time datetime                             null comment '订单失效时间，没有值代表永不失效',
+    create_time  datetime   default current_timestamp not null comment '创建时间',
+    update_time  datetime   default current_timestamp not null on update current_timestamp comment '更新时间'
+) engine = innodb
+  default charset = utf8mb4 comment '微信订单表';
