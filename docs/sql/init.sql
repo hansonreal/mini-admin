@@ -1,4 +1,4 @@
-CREATE database if NOT EXISTS `mini-admin` default;
+CREATE database if NOT EXISTS `mini-admin` default character set utf8mb4 collate utf8mb4_general_ci;
 use `mini-admin`;
 
 -- 系统用户表
