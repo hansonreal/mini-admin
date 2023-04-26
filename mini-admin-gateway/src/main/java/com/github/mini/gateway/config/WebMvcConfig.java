@@ -1,7 +1,6 @@
 package com.github.mini.gateway.config;
 
 import com.github.mini.common.properties.MiniAdminProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
